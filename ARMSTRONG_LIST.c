@@ -16,4 +16,5 @@ while (n<=100000000000000)
         printf("%d\t",n);
     ++n;
     }
+    return;
 }
