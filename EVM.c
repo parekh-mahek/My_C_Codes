@@ -18,4 +18,5 @@ while (a+b+c+d<n)
         d=d+1;
     }
 printf("\n\nResults:\nName\t\tNo. of votes\nBJP\t\t%d\nCong.\t\t%d\nAAP\t\t%d\nNOTA\t\t%d",a,b,c,d);
+    return;
 }
