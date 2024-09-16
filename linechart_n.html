@@ -1,0 +1,72 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+
+<script src="https://cdn.anychart.com/releases/8.10.0/js/anychart-core.min.js"></script>
+    <script src="https://cdn.anychart.com/releases/8.10.0/js/anychart-cartesian.min.js"></script>
+<script type="text/javascript">
+		var para= new URLSearchParams(window.location.search);
+		var name=para.get("name");
+		// Create XMLHttpRequest object.
+	    var oXHR = new XMLHttpRequest();
+
+	    // Initiate request.
+	    var url="https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol="+name+"&interval=15min&apikey=XXGSE9XWZ7BGGU1R";
+	    oXHR.onreadystatechange = reportStatus;
+	    oXHR.open("GET",url , true); // get json file.
+	    oXHR.send();
+
+	    function reportStatus() {
+	        if (oXHR.readyState == 4) {		// Check if request is complete.
+
+	            var arr = new Array();
+		    	arr=JSON.parse(this.responseText);
+		    	const objectArray = Object.entries(arr);
+		    	//console.log(objectArray);
+		    	//console.log(objectArray[1][1]);
+		    	const newo=Object.entries(objectArray[1][1]);
+		    	var data=Array();
+		    	var time=["09:30:00","09:45:00","10:00:00","10:15:00","10:30:00",
+		    			"10:45:00","11:00:00","11:15:00","11:30:00","11:45:00",
+		    			"12:00:00","12:15:00","12:30:00","12:45:00","13:00:00",
+		    			"13:15:00","13:30:00","13:45:00","14:00:00","14:15:00",
+		    			"14:30:00","14:45:00","15:00:00","15:15:00","15:30:00",
+		    			"15:45:00","16:00:00","16:15:00","16:30:00","16:45:00"];
+		    	var i=0;
+		    	newo.forEach(([key,value]) =>{
+		    		if(key.substring(0,10)=="2021-09-07"){
+		    			if (time.includes(key.substring(11,19))) {
+		    				list=[time[i],value["2. high"]];
+		    				data.push(list);
+		    				i++;
+		    			}		    			
+		    		}
+
+		    	});
+		    	chart = anychart.line();
+
+				// create a line series and set the data
+				var series = chart.line(data);
+
+				// set the container id
+				chart.container("container");
+
+				// initiate drawing the chart
+				chart.draw();
+	        }
+	    }
+	    
+	</script>
+	<style type="text/css">
+		html, body, #container {
+		    width: 100%;
+		    height: 100%;
+		    margin: 0;
+		    padding: 0;
+		}
+	</style>
+</head>
+<body>
+<div id="container" style="width: 100%; height: 100%"></div>
+</body>
+</html>
